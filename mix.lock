@@ -4,4 +4,5 @@
   "idna": {:hex, :idna, "1.0.1"},
   "jsx": {:hex, :jsx, "2.4.0"},
   "meck": {:hex, :meck, "0.8.2"},
-  "mock": {:hex, :mock, "0.1.0"}}
+  "mock": {:hex, :mock, "0.1.0"},
+  "poison": {:hex, :poison, "1.2.1"}}

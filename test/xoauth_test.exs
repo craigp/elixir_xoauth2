@@ -30,7 +30,7 @@ defmodule XOAuth2Test do
   test "calls the xoauth functions correctly when generating a token" do
     with_mock HTTPoison, [ post: fn(_url, _payload, _headers) -> "dummy response" end ] do
       with_mock URI, [ encode_query: fn(_opts) -> "payload" end] do
-        opts = %XOAuth2Opts{}
+        opts = %XOAuth2.Opts{}
         opts = %{ opts | client_id: "client_id", client_secret: "client_secret", refresh_token: "refresh_token" }
         url_opts = XOAuth2.url_options(opts)
         headers = %{"Content-Type" => "application/x-www-form-urlencoded"}

@@ -25,6 +25,6 @@ defmodule XOAuth2.Mixfile do
   #
   # Type `mix help deps` for more examples and options
   defp deps do
-    [ {:httpoison, "~> 0.5"}, {:exjsx, "~> 3.1"}, {:mock, "~> 0.1"} ]
+    [ {:httpoison, "~> 0.5"}, {:poison, "~> 1.2"}, {:mock, "~> 0.1"} ]
   end
 end
