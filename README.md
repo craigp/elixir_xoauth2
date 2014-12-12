@@ -1,4 +1,6 @@
 XOAuth2
 =======
 
-** TODO: Add description **
+A simple XOAuth2 module for Elixir.
+
+
