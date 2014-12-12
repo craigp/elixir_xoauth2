@@ -9,8 +9,7 @@ defmodule XOAuth2 do
     payload = opts
       |> url_options
       |> encode_query
-    headers = %{"Content-Type" => "application/x-www-form-urlencoded"}
-    case post(opts.url, payload, headers) do
+    case post(opts.url, payload, %{"Content-Type" => "application/x-www-form-urlencoded"}) do
       {:ok, response} ->
         response 
           |> parse_response_body
@@ -28,33 +27,18 @@ defmodule XOAuth2 do
     }
   end
 
-  def parse_response_body(response) do
-    case Dict.has_key?(response, :body) do
-      true ->
-        case parse(response.body) do
-          {:ok, json} ->
-            case Dict.get(json, "access_token") do
-              nil ->
-                nil
-              access_token ->
-                access_token
-            end
-          _ -> 
-            nil
-        end
-      false ->
-        nil
+  def parse_response_body(%HTTPoison.Response{body: body}) do
+    case parse(body) do
+      {:ok, %{"access_token" => token}} -> token
+      {:ok, _body} -> nil
+      {:error, _error} -> nil
     end
   end
 
   def build_token(access_token, user_id) do
-    auth_data = [
-      "user=" <> user_id,
-      "auth=Bearer " <> access_token,
-      "",
-      ""
-    ]
-    Base.encode64(Enum.join(auth_data, "\x{01}"))
+    ["user=" <> user_id, "auth=Bearer " <> access_token, "", ""]
+      |> Enum.join("\x{01}")
+      |> Base.encode64
   end
 
 end

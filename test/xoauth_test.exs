@@ -6,18 +6,19 @@ defmodule XOAuth2Test do
 
   test "parses access token from the json response body correctly" do
     json = "{\"access_token\": \"123456789\"}"
-    response = %{body: json}
+    response = %HTTPoison.Response{body: json}
     assert XOAuth2.parse_response_body(response) == "123456789"
-  end
-
-  test "returns nill when parsing for an access token on an invalid response object" do
-    response = %{garbage: "this is junk"}
-    XOAuth2.parse_response_body(response) == nil
   end
 
   test "returns nil when the response body json cannot be parsed" do
     json = "this is not json"
-    response = %{body: json}
+    response = %HTTPoison.Response{body: json}
+    assert XOAuth2.parse_response_body(response) == nil
+  end
+
+  test "returns nil when the response body does not contain an access token" do
+    json = "{\"not_an_access_token\": \"123456789\"}"
+    response = %HTTPoison.Response{body: json}
     assert XOAuth2.parse_response_body(response) == nil
   end
 
