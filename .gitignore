@@ -3,3 +3,4 @@
 erl_crash.dump
 *.ez
 lib/xoauth2_opts_defaults.ex
+*.beam
