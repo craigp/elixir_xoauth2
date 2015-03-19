@@ -4,14 +4,15 @@ defmodule XOAuth2 do
   import URI, only: [encode_query: 1]
   import HTTPoison, only: [post: 3]
   import Poison.Parser, only: [parse: 1]
-  
+
   def generate_token(opts \\ %XOAuth2.Opts{}) do
+    IO.inspect opts
     payload = opts
       |> url_options
       |> encode_query
     case post(opts.url, payload, %{"Content-Type" => "application/x-www-form-urlencoded"}) do
       {:ok, response} ->
-        response 
+        response
           |> parse_response_body
           |> build_token(opts.user_id)
       _ -> nil
@@ -19,12 +20,14 @@ defmodule XOAuth2 do
   end
 
   def url_options(opts) do
-    %{
+    url_opts = %{
       grant_type: "refresh_token",
       client_id: opts.client_id,
       client_secret: opts.client_secret,
       refresh_token: opts.refresh_token
     }
+    IO.inspect url_opts
+    url_opts
   end
 
   def parse_response_body(%HTTPoison.Response{body: body}) do
