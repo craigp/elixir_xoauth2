@@ -6,7 +6,6 @@ defmodule XOAuth2 do
   import Poison.Parser, only: [parse: 1]
 
   def generate_token(opts \\ %XOAuth2.Opts{}) do
-    IO.inspect opts
     payload = opts
       |> url_options
       |> encode_query
@@ -26,7 +25,6 @@ defmodule XOAuth2 do
       client_secret: opts.client_secret,
       refresh_token: opts.refresh_token
     }
-    IO.inspect url_opts
     url_opts
   end
 
