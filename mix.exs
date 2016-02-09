@@ -4,8 +4,8 @@ defmodule XOAuth2.Mixfile do
   def project do
     [
       app: :xoauth2,
-      version: "0.0.3",
-      elixir: "~> 1.0",
+      version: "0.0.4",
+      elixir: "~> 1.2",
       deps: deps,
       description: "A simple XOAuth2 module for Elixir",
       package: package

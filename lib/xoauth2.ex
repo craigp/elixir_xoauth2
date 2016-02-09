@@ -1,15 +1,10 @@
 defmodule XOAuth2 do
 
-  import XOAuth2.Opts
-  import URI, only: [encode_query: 1]
-  import HTTPoison, only: [post: 3]
-  import Poison.Parser, only: [parse: 1]
-
-  def generate_token(opts \\ %XOAuth2.Opts{}) do
+  def generate_token(%XOAuth2.Opts{} = opts \\ %XOAuth2.Opts{}) do
     payload = opts
       |> url_options
-      |> encode_query
-    case post(opts.url, payload, %{"Content-Type" => "application/x-www-form-urlencoded"}) do
+      |> URI.encode_query
+    case HTTPoison.post(opts.url, payload, %{"Content-Type" => "application/x-www-form-urlencoded"}) do
       {:ok, response} ->
         response
           |> parse_response_body
@@ -29,7 +24,7 @@ defmodule XOAuth2 do
   end
 
   def parse_response_body(%HTTPoison.Response{body: body}) do
-    case parse(body) do
+    case Poison.Parser.parse(body) do
       {:ok, %{"access_token" => token}} -> token
       {:ok, _body} -> nil
       {:error, _error} -> nil
